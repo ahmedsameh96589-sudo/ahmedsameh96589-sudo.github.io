@@ -38,7 +38,7 @@
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 16px 40px -16px rgba(0,0,0,.6);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body { background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 h1, h2, h3 { font-family: Sora, Inter, sans-serif; line-height: 1.15; letter-spacing: -.02em; }
 a { color: inherit; text-decoration: none; }
@@ -90,6 +90,8 @@ section { padding: 88px 0; }
 .feat-copy h3 small { font-family: Inter; font-size: 12px; font-weight: 600; letter-spacing: 0; padding: 4px 10px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); }
 .feat-copy > p { color: var(--ink-2); margin: 14px 0 28px; font-size: 17px; }
 .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.arch + .arch { margin-top: 20px; }
+.features.eng .feature { background: var(--bg); }
 .feature { display: flex; gap: 12px; padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
 .feature .ic { flex: none; width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); }
 .feature b { font-size: 14px; display: block; }
@@ -244,9 +246,9 @@ footer { padding: 40px 0; text-align: center; color: var(--ink-3); font-size: 14
         GitHub</a>
     </div>
     <div class="stats reveal">
-      <div class="stat"><b data-count="19700">0</b><span>lines of code in Dawaya</span></div>
+      <div class="stat"><b data-count="20200">0</b><span>lines of code in Dawaya</span></div>
       <div class="stat"><b data-count="115">0</b><span>REST API endpoints</span></div>
-      <div class="stat"><b data-count="3">0</b><span>Flutter apps built</span></div>
+      <div class="stat"><b data-count="53">0</b><span>automated tests, run by CI</span></div>
       <div class="stat"><b>AR · EN</b><span>bilingual apps</span></div>
     </div>
   </div>
@@ -264,7 +266,7 @@ footer { padding: 40px 0; text-align: center; color: var(--ink-3); font-size: 14
         <p>Patients scan a prescription, find cheaper substitutes, ask a doctor in live chat, and order their medicine to their door. Admins and pharmacists run the store from inside the same app.</p>
         <div class="cta" style="margin:-8px 0 28px"><a href="https://github.com/ahmedsameh96589-sudo/dawaya" target="_blank" rel="noopener" class="btn btn-primary">App code →</a><a href="https://github.com/ahmedsameh96589-sudo/dawaya-backend" target="_blank" rel="noopener" class="btn btn-ghost">Backend code →</a></div>
         <div class="features">
-          <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg></div><div><b>Prescription scanning</b><span>On-device text recognition with Google ML Kit</span></div></div>
+          <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg></div><div><b>Scan to Cart</b><span>Scan a prescription with on-device OCR, match each medicine to the catalog (even with OCR typos), add it all in one tap</span></div></div>
           <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><b>Doctor consultations</b><span>Live chat with doctors, plus a rating after each consultation</span></div></div>
           <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></div><div><b>Medicine substitutes</b><span>Find alternatives with the same active ingredient</span></div></div>
           <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div><div><b>Push notifications</b><span>Firebase Cloud Messaging sends an alert for every new message</span></div></div>
@@ -299,11 +301,20 @@ footer { padding: 40px 0; text-align: center; color: var(--ink-3); font-size: 14
     <div class="arch reveal">
       <h4>How it's built</h4>
       <div class="flow">
-        <div class="node"><b>📱 Mobile app</b><div class="chips"><span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">ML Kit OCR</span><span class="chip">Camera</span><span class="chip">i18n AR/EN</span></div></div>
+        <div class="node"><b>📱 Mobile app</b><div class="chips"><span class="chip">Flutter</span><span class="chip">Riverpod</span><span class="chip">Repositories</span><span class="chip">ML Kit OCR</span><span class="chip">Camera</span><span class="chip">i18n AR/EN</span></div></div>
         <div class="arrow"><svg width="36" height="14" viewBox="0 0 36 14"><path d="M0 7h32M26 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>REST + JWT</div>
-        <div class="node"><b>⚙️ API server</b><div class="chips"><span class="chip t">Node.js</span><span class="chip t">Express</span><span class="chip t">Validation</span><span class="chip t">Rate limiting</span><span class="chip t">Multer</span></div></div>
+        <div class="node"><b>⚙️ API server</b><div class="chips"><span class="chip t">Node.js</span><span class="chip t">Express</span><span class="chip t">Validation</span><span class="chip t">Rate limiting</span><span class="chip t">Helmet</span><span class="chip t">Jest</span></div></div>
         <div class="arrow"><svg width="36" height="14" viewBox="0 0 36 14"><path d="M0 7h32M26 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Mongoose</div>
         <div class="node"><b>🗄️ Data &amp; services</b><div class="chips"><span class="chip">MongoDB</span><span class="chip">Firebase FCM</span><span class="chip">Nodemailer</span><span class="chip">Twilio SMS</span></div></div>
+      </div>
+    </div>
+    <div class="arch reveal">
+      <h4>Engineering behind it</h4>
+      <div class="features eng">
+        <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div><b>Clean data layer</b><span>Replaced a 1,000-line static API class with one HTTP client and 10 feature repositories provided through Riverpod</span></div></div>
+        <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div><b>Tested with CI</b><span>53 unit and API tests (Flutter + Jest) run by GitHub Actions on every pull request</span></div></div>
+        <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><b>Security hardening</b><span>Blocked NoSQL and regex injection, secure OTPs, and login-protected prescription images</span></div></div>
+        <div class="feature"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div><b>Reliable sessions</b><span>Login kept in the device keychain; expired tokens sign the user out cleanly instead of breaking screens</span></div></div>
       </div>
     </div>
   </div>
@@ -345,9 +356,9 @@ footer { padding: 40px 0; text-align: center; color: var(--ink-3); font-size: 14
     <div class="eyebrow">// toolbox</div>
     <h2 class="sec-title reveal">Skills</h2>
     <div class="skills">
-      <div class="skill reveal"><h4><i></i>Mobile</h4><div class="chips"><span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">State management</span><span class="chip">REST integration</span><span class="chip">Localization</span><span class="chip">Camera &amp; ML Kit</span><span class="chip">Push notifications</span></div></div>
-      <div class="skill reveal"><h4><i style="background:var(--brand)"></i>Backend</h4><div class="chips"><span class="chip t">Node.js</span><span class="chip t">Express</span><span class="chip t">MongoDB</span><span class="chip t">Mongoose</span><span class="chip t">JWT auth</span><span class="chip t">REST API design</span><span class="chip t">Firebase</span></div></div>
-      <div class="skill reveal"><h4><i style="background:#F5A623"></i>Tools</h4><div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">Postman</span><span class="chip">Android Studio</span><span class="chip">Xcode</span><span class="chip">VS Code</span></div></div>
+      <div class="skill reveal"><h4><i></i>Mobile</h4><div class="chips"><span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">Riverpod</span><span class="chip">Unit testing</span><span class="chip">REST integration</span><span class="chip">Localization</span><span class="chip">Camera &amp; ML Kit</span><span class="chip">Push notifications</span></div></div>
+      <div class="skill reveal"><h4><i style="background:var(--brand)"></i>Backend</h4><div class="chips"><span class="chip t">Node.js</span><span class="chip t">Express</span><span class="chip t">MongoDB</span><span class="chip t">Mongoose</span><span class="chip t">JWT auth</span><span class="chip t">REST API design</span><span class="chip t">API security</span><span class="chip t">Jest &amp; Supertest</span><span class="chip t">Firebase</span></div></div>
+      <div class="skill reveal"><h4><i style="background:#F5A623"></i>Tools</h4><div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">GitHub Actions</span><span class="chip">Postman</span><span class="chip">Android Studio</span><span class="chip">Xcode</span><span class="chip">VS Code</span></div></div>
     </div>
   </div>
 </section>
